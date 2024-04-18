@@ -11,11 +11,11 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import MyStyledTextField from "../components/myStyledTextField";
 import { GoogleLogin } from "@react-oauth/google";
 import { FrontAuthContext } from "../context/front-auth";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 
 export default function Login() {
   const navigate = useNavigate();
-  const { handleCreateUser,handleGoogleLogin } = FrontAuthContext();
+  const { handleCreateUser, handleGoogleLogin } = FrontAuthContext();
 
   function Copyright(props) {
     return (
@@ -34,27 +34,59 @@ export default function Login() {
 
   const defaultTheme = createTheme();
   const [combinedState, setCombinedState] = useState({
-    name : "",
+    name: "",
     email: "",
     password: "",
   });
 
-
- async function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
-    returnResponse( await handleCreateUser(combinedState.name ,combinedState.email, combinedState.password));
+    if (
+      !combinedState.name ||
+      !combinedState.email ||
+      !combinedState.password
+    ) {
+      toast.error("Username , Email and password are required");
+      return;
+    }
+    // Check if email is in valid format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(combinedState.email)) {
+      toast.error("Please enter a valid email address");
+      return;
+    }
+    // Check password strength (medium or strong)
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    if (!passwordRegex.test(combinedState.password)) {
+      toast.error(
+        "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one number"
+      );
+      return;
+    }
+    try {
+      const response = await handleCreateUser(
+        combinedState.name,
+        combinedState.email,
+        combinedState.password
+      );
+      // Handle successful response
+      returnResponse(response);
+    } catch (error) {
+      // Handle API errors
+      console.error(error);
+      toast.error("An error occurred. Please try again later.");
+    }
   }
 
   function onchange(e) {
     setCombinedState({ ...combinedState, [e.target.name]: e.target.value });
   }
 
-  function returnResponse(response){
+  function returnResponse(response) {
     if (response.success) {
-      toast.success(response.message)
-      navigate('/')
-    }
-    else{
+      toast.success(response.message);
+      navigate("/");
+    } else {
       toast.error(response.message);
     }
   }
@@ -134,9 +166,11 @@ export default function Login() {
             {/* Google login button */}
             <div className="flex h-[50px] justify-center">
               <GoogleLogin
-                 onSuccess={async (credentialResponse) => {
-                  returnResponse(await handleGoogleLogin(credentialResponse.credential))
-                 }}
+                onSuccess={async (credentialResponse) => {
+                  returnResponse(
+                    await handleGoogleLogin(credentialResponse.credential)
+                  );
+                }}
                 onError={() => {
                   console.log("Login Failed");
                 }}
