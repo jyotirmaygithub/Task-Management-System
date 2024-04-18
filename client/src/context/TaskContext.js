@@ -1,21 +1,17 @@
 import React, { useState, useEffect, useContext, createContext } from "react";
 import { TokenStatusContext } from "./tokenStatus";
-import { StateContext } from "./States";
 
-const noteContext = createContext();
-
+const TaskContext = createContext();
 const dev_URL = process.env.REACT_APP_DEV_URL;
 
+export function TaskContextFun(props) {
+  const { getAuthToken } = TokenStatusContext();
+  const [tasks, setTasks] = useState([]);
 
-export function NoteContextFun(props) {
-  const { getAuthToken, checkCookie } = TokenStatusContext();
-  const [notes, setnotes] = useState([]);
-
-  // Fetching, adding, updating and deleting will be done through API calls.
-  // API call 1: To fetch all existing notes.
-  async function fetchAllNotes() {
+  // Function to fetch all tasks
+  async function fetchAllTasks() {
     try {
-      const response = await fetch(`${dev_URL}/api/notes/fetchusernote`, {
+      const response = await fetch(`${dev_URL}/api/task/tasks`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -27,36 +23,41 @@ export function NoteContextFun(props) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
-      const jsonData = await response.json();
-      setnotes(jsonData);
-      return jsonData;
+      const fetchedTasks = await response.json();
+      setTasks(fetchedTasks);
+      // return fetchedTasks;
     } catch (error) {
-      console.error("Error fetching notes:", error);
+      console.error("Error fetching Tasks:", error);
     }
   }
 
-  // API call 3 : To delete a note.
-  async function handleDeleteNote(id) {
+  // Function to delete a task
+  async function handleDeleteTask(id) {
     try {
-      const response = await fetch(`${dev_URL}/api/notes/deletenote/${id}`, {
+      const response = await fetch(`${dev_URL}/api/task/deleteTask/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
           "auth-token": getAuthToken(),
         },
       });
-      fetchAllNotes();
+
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
+
+      fetchAllTasks(); // Refresh tasks after deletion
+      return { success: true, message: "Task has been deleted!" };
     } catch (error) {
-      console.error("Error fetching notes:", error);
+      console.error("Error deleting Task:", error);
+      return { success: false, message: error.message };
     }
   }
-  // API call 4 : To edit exiting note.
-  async function handleEditNote(id, title, description, tag) {
+
+  // Function to edit an existing task
+  async function handleEditTask(id, title, description, tag) {
     try {
-      const response = await fetch(`${dev_URL}/api/notes/updatenote/${id}`, {
+      const response = await fetch(`${dev_URL}/api/task/updateTask/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -64,30 +65,58 @@ export function NoteContextFun(props) {
         },
         body: JSON.stringify({ title, description, tag }),
       });
-      fetchAllNotes();
+
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
+
+      fetchAllTasks(); // Refresh tasks after update
+      return { success: true, message: "Task has been Edited!" };
     } catch (error) {
-      console.error("Error fetching notes:", error);
+      console.error("Error updating Task:", error);
+      return { success: false, message: error.message };
+    }
+  }
+
+  // Function to add a new note
+  async function handleAddNote(title, description, tag) {
+    try {
+      const response = await fetch(`${dev_URL}/api/task/addtask`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "auth-token": getAuthToken(),
+        },
+        body: JSON.stringify({ title, description, tag }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      fetchAllTasks(); // Refresh tasks after adding note
+      return { success: true, message: "Task has been stored in the basket!" };
+    } catch (error) {
+      console.error("Error adding Note:", error);
+      return { success: false, message: error.message };
     }
   }
 
   return (
-    <noteContext.Provider
+    <TaskContext.Provider
       value={{
-        notes,
-        setnotes,
-        fetchAllNotes,
-        handleDeleteNote,
-        handleEditNote,
+        tasks,
+        fetchAllTasks,
+        handleDeleteTask,
+        handleEditTask,
+        handleAddNote,
       }}
     >
       {props.children}
-    </noteContext.Provider>
+    </TaskContext.Provider>
   );
 }
 
-export function UserNotes() {
-  return useContext(noteContext);
+export function UserTasks() {
+  return useContext(TaskContext);
 }

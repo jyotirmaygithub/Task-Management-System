@@ -12,11 +12,12 @@ import EditProfile from "./pages/EditProfile";
 import { StatesFunction } from "./context/States";
 import { EditProfileContextFunc } from "./context/EditProfile";
 // import CircleProgress from "./pages/CircleProgress";
-import FrontPage from "./Layout/FrontPage";
+import LandingPage from "./pages/LandingPage";
 import UserProfile from "./pages/UserProfile";
 // import Contact from "./pages/Contact"
 // import About from "./pages/About"
-import { NoteContextFun } from "./context/TaskContext"
+import { TaskContextFun } from "./context/TaskContext"
+import Tasks from "./pages/ExistingTasks"
 
 function App() {
   return (
@@ -25,11 +26,11 @@ function App() {
         <StatesFunction>
           <TokenStatusFunction>
             <AuthFunction>
-              <NoteContextFun>
+              <TaskContextFun>
                 <EditProfileContextFunc>
                   <Router>
                     <Routes>
-                      <Route exact path="/" element={<FrontPage />} />
+                      <Route exact path="/" element={<LandingPage />} />
                       <Route exact path="/login" element={<LoginPage />} />
                       <Route exact path="/signup" element={<SignUp />} />
                       <Route
@@ -41,6 +42,11 @@ function App() {
                         exact
                         path="/account/edit-profile"
                         element={<EditProfile />}
+                      />
+                      <Route
+                        exact
+                        path="/Tasks"
+                        element={<Tasks />}
                       />
                       {/* <Route
                         exact
@@ -61,7 +67,7 @@ function App() {
                     </Routes>
                   </Router>
                 </EditProfileContextFunc>
-              </NoteContextFun>
+              </TaskContextFun>
               <ToastContainer autoClose={2000} transition={Slide} />
             </AuthFunction>
           </TokenStatusFunction>

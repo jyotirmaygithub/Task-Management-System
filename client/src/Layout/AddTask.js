@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { UserNotes } from "../context/TaskContext";
+import { UserTasks } from "../context/TaskContext";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
@@ -10,93 +10,50 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import MyStyledTextField from "../components/myStyledTextField";
-// import  Alert  from "../components/Alerts";
+import { toast } from "react-toastify";
 
 export default function AddNote() {
-  // Function : To take title,description and tag as argument to make a new note.
-  const { fetchAllNotes } = UserNotes();
-  // create a object in state with name and values. which need to be update on user entered input and then need to pass as arugement in the given function.
+  const { handleAddNote } = UserTasks();
   const [note, setnote] = useState({ title: "", description: "", tag: "" });
-  const [alertState, setAlertState] = useState(false);
-  const [details, setDetails] = useState({ type: "", message: "" });
 
-  function getCookie(cookieName) {
-    const cookies = document.cookie;
-    const cookieArray = cookies.split("; ");
-
-    for (const cookie of cookieArray) {
-      if (cookie.startsWith(`${cookieName}=`)) {
-        const cookieValue = cookie.split("=")[1];
-        return cookieValue;
-      }
+  async function handleClick(e) {
+    e.preventDefault();
+    // Check if any of the fields are empty
+    if (!note.title || !note.description || !note.tag) {
+      toast.error("All fields are required");
+      return;
     }
-
-    return null;
-  }
-
-  function alertRemoval() {
-    setTimeout(() => {
-      setAlertState(false);
-    }, 1500);
-  }
-
-
-  // API call : To add note.
-  async function handleAddNote(title, description, tag) {
     try {
-      const response = await fetch(
-        `${process.env.REACT_APP_DEV_URL}/api/notes/addnote`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "auth-token": getCookie("auth_token"),
-          },
-          // sending data to the data base to update.
-          body: JSON.stringify({ title, description, tag }),
-        }
+      const response = await handleAddNote(
+        note.title,
+        note.description,
+        note.tag
       );
-      fetchAllNotes();
-
-      if (!response.ok) {
-        setAlertState(true);
-        setDetails({ type: "error", message: "Sorry, Incomplete Note" });
-        alertRemoval();
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      setDetails({ type: "success", message: "Note placed in a vault or basket." });
-        setAlertState(true);
-        alertRemoval();
+      returnResponse(response);
     } catch (error) {
-      console.error("Error fetching notes:", error);
+      // Handle API errors
+      console.error(error);
+      toast.error("An error occurred. Please try again later.");
     }
-  }
-
-  function handleClick(e) {
-    e.preventDefault()
-    // passing all required arugements
-    handleAddNote(note.title, note.description, note.tag);
   }
   function onchange(e) {
-    // IMP spread operator : Making shallow copy of the existing note object.
-    // Note State mangement : for numbers and string direct mutation of the state is possible and fesible , but for objects and arrays it not as it previous one.
     setnote({ ...note, [e.target.name]: e.target.value });
   }
-
+  function returnResponse(response) {
+    if (response.success) {
+      toast.success(response.message);
+    } else {
+      toast.error(response.message);
+    }
+  }
   return (
     <>
-     <div className="h-[50px]">
-        {/* {alertState && <Alert type={details.type} message={details.message} />} */}
-      </div>
-      <Container className="space-y-3">
+      <Container className="mt-[130px] space-y-3">
         <Typography variant="h6" color="black" component="h2" gutterBottom>
           Create a new note
         </Typography>
 
-        <form
-          onSubmit={handleClick}
-          className="flex flex-col space-y-8"
-        >
+        <form onSubmit={handleClick} className="flex flex-col space-y-8">
           <MyStyledTextField
             onChange={onchange}
             label="Note Title"
@@ -138,7 +95,7 @@ export default function AddNote() {
                 label="Work"
               />
               <MyStyledTextField
-              className="w-[30vw]"
+                className="w-[30vw]"
                 onChange={onchange}
                 label="Custom Tag"
                 name="tag"
