@@ -17,7 +17,8 @@ import UserProfile from "./pages/UserProfile";
 // import Contact from "./pages/Contact"
 // import About from "./pages/About"
 import { TaskContextFun } from "./context/TaskContext"
-import Tasks from "./pages/ExistingTasks"
+import Tasks from "./pages/UserTasks"
+import TasksHistory from "./pages/Task-History"
 
 function App() {
   return (
@@ -47,6 +48,11 @@ function App() {
                         exact
                         path="/Tasks"
                         element={<Tasks />}
+                      />
+                      <Route
+                        exact
+                        path="/all-created-tasks"
+                        element={<TasksHistory />}
                       />
                       {/* <Route
                         exact

@@ -46,7 +46,7 @@ export default function AnchorTemporaryDrawer() {
     } else if (value === "editProfile") {
       navigate(`/account/edit-profile`);
     } else if (value === "Task-History") {
-      navigate(`/Task-History/${userDocument.name}`);
+      navigate(`/all-created-tasks`);
     } else {
       navigate(`/${value}`);
     }

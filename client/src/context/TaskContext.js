@@ -102,6 +102,36 @@ export function TaskContextFun(props) {
     }
   }
 
+   // Function to assign a task
+   async function handleAssignTask(id) {
+    console.log("Assigning task with ID:", id);
+    try {
+      const response = await fetch(`${dev_URL}/api/task/assignTask/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "auth-token": getAuthToken(), // Assuming getAuthToken() retrieves the authentication token
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+  
+      // If you want to parse response body, uncomment the next line
+      // const data = await response.json();
+  
+      // Refresh tasks after assignment
+      fetchAllTasks();
+  
+      return { success: true, message: "Task has been assigned!" };
+    } catch (error) {
+      console.error("Error assigning task:", error.message);
+      return { success: false, message: error.message };
+    }
+  }
+  
+
   return (
     <TaskContext.Provider
       value={{
@@ -110,6 +140,7 @@ export function TaskContextFun(props) {
         handleDeleteTask,
         handleEditTask,
         handleAddNote,
+        handleAssignTask,
       }}
     >
       {props.children}
