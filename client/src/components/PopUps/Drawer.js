@@ -45,10 +45,8 @@ export default function AnchorTemporaryDrawer() {
       navigate(`/account/${userDocument.name}`);
     } else if (value === "editProfile") {
       navigate(`/account/edit-profile`);
-    } else if (value === "Bookings") {
-      navigate(`/booking/${userDocument.name}`);
-    } else if (value === "Accommodation") {
-      navigate(`/Accommodation/${userDocument.name}`);
+    } else if (value === "Task-History") {
+      navigate(`/Task-History/${userDocument.name}`);
     } else {
       navigate(`/${value}`);
     }
@@ -76,7 +74,7 @@ export default function AnchorTemporaryDrawer() {
         </Button>
       </div>
       <List>
-        {["View Profile", "Bookings", "Accommodation"].map((text, index) => (
+        {["View Profile", "Tasks", "Task-History"].map((text, index) => (
           <ListItem key={text} disablePadding onClick={() => handleClick(text)}>
             <ListItemButton>
               <ListItemIcon>{icons[index % iconCount]}</ListItemIcon>
