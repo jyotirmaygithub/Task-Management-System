@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import { UserTasks } from "../context/TaskContext";
 import Task from "../Layout/TaskLayout";
-import Welcome from "../components/Welcome";
+import { Grid, Typography } from "@mui/material";
+import { WarningRounded } from "@mui/icons-material";
 import { TokenStatusContext } from "../context/tokenStatus";
 
 export default function ExitingTasks() {
@@ -19,9 +20,8 @@ export default function ExitingTasks() {
       console.log("authtoken id = ", decodedToken.newUser.id);
       setUserId(decodedToken.newUser.id);
     }
-    
   }, []);
-  
+  console.log("numebr of taks ", tasks);
   // Filter tasks based on whether they are assigned to the user
   const assignedTasks = tasks.filter((task) => task.assignedUser === userId);
   const unassignedTasks = tasks.filter((task) => !task.assignedTo);
@@ -29,10 +29,6 @@ export default function ExitingTasks() {
   return (
     <>
       <div className="flex flex-col justify-center my-4 mx-4 space-y-5">
-        <div>
-          <Welcome />
-        </div>
-
         {/* Render assigned tasks */}
         {assignedTasks.length > 0 && (
           <div className="mb-6">
@@ -62,28 +58,33 @@ export default function ExitingTasks() {
         )}
 
         {/* Show message if no tasks */}
-        {tasks.length === 0 && (
-          <div className="flex flex-col items-center mt-8">
-            <svg
-              className="w-12 h-12 text-gray-300"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+        {assignedTasks.length === 0 && unassignedTasks.length === 0 && (
+          <Grid
+            container
+            direction="column"
+            alignItems="center"
+            justifyContent="center"
+            mt={8}
+          >
+            <WarningRounded sx={{ fontSize: 72, color: "gray" }} />
+            <Typography
+              variant="h6"
+              component="h2"
+              mt={4}
+              color="textSecondary"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-              />
-            </svg>
-            <h2 className="text-lg font-medium text-gray-600 mt-4">
               No tasks found
-            </h2>
-            <p className="text-gray-400 mt-2">
-              Click on the "+" button to create a new task.
-            </p>
-          </div>
+            </Typography>
+            <Typography
+              variant="body2"
+              color="textSecondary"
+              mt={2}
+              textAlign="center"
+            >
+              Currently, there are no available tasks. Please check back later
+              or keep an eye out for new tasks.
+            </Typography>
+          </Grid>
         )}
       </div>
     </>

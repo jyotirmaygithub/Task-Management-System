@@ -3,7 +3,7 @@ import Popover from "@mui/material/Popover";
 import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
 import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
-import { HotelOutlined, PersonOutline } from "@mui/icons-material";
+import { AssignmentTurnedInOutlined, HotelOutlined, PersonOutline } from "@mui/icons-material";
 import { StateContext } from "../../context/States";
 
 export default function BasicPopover() {
@@ -20,10 +20,10 @@ export default function BasicPopover() {
   };
 
   const handleRoutes = (value) => {
-    if (value === "/booking") {
-      navigate(`${value}/${userDocument.name}`);
+    if (value === "/my-tasks") {
+      navigate(`/my-tasks/${userDocument.name}`);
     } else {
-      navigate(`${value}`);
+      navigate(`/account/edit-profile`);
     }
   };
   const open = Boolean(anchorEl);
@@ -32,7 +32,7 @@ export default function BasicPopover() {
   return (
     <div>
       <MoreHorizOutlinedIcon
-        className="relative left-[220px] cursor-pointer"
+        className="relative left-[245px] cursor-pointer"
         aria-describedby={id}
         variant="contained"
         onClick={handleClick}
@@ -49,18 +49,18 @@ export default function BasicPopover() {
       >
         <Typography
           className="p-2 gap-2 hover:underline cursor-pointer flex justify-center items-center"
-          onClick={() => handleRoutes("/account/edit-profile")}
+          onClick={() => handleRoutes()}
         >
           Edit Profile
-          <PersonOutline className="text-green-800 text-xl" />
+          <PersonOutline />
         </Typography>
         <hr />
         <Typography
           className="p-2 gap-2 hover:underline cursor-pointer flex justify-center items-center"
-          onClick={() => handleRoutes("/booking")}
+          onClick={() => handleRoutes("/my-tasks")}
         >
-          Bookings
-          <HotelOutlined className="" />
+          My tasks
+          <AssignmentTurnedInOutlined  />
         </Typography>
       </Popover>
     </div>

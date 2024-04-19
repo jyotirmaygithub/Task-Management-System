@@ -11,6 +11,7 @@ import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import MyStyledTextField from "../components/myStyledTextField";
 import { toast } from "react-toastify";
+import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 
 export default function AddNote() {
   const { handleAddNote } = UserTasks();
@@ -49,14 +50,14 @@ export default function AddNote() {
   return (
     <>
       <Container className="mt-[130px] space-y-3">
-        <Typography variant="h6" color="black" component="h2" gutterBottom>
-          Create a new note
-        </Typography>
+        <h1 className="text-black text-[25px]" >
+          Create a new task
+        </h1>
 
         <form onSubmit={handleClick} className="flex flex-col space-y-8">
           <MyStyledTextField
             onChange={onchange}
-            label="Note Title"
+            label="Task Title"
             variant="outlined"
             name="title"
             fullWidth
@@ -74,25 +75,72 @@ export default function AddNote() {
             required
           />
           <FormControl>
-            <FormLabel className="text-black">Note Tags</FormLabel>
+          <h1 className="text-black text-[20px]">Task Tags</h1>
             <RadioGroup onChange={onchange}>
               <FormControlLabel
                 name="tag"
-                value="money"
-                control={<Radio className="text-black" />}
-                label="Money"
+                value="administrative"
+                control={
+                  <Radio
+                    sx={{ color: "black" }}
+                    checkedIcon={
+                      <RadioButtonCheckedIcon sx={{ color: "black" }} />
+                    }
+                  />
+                }
+                label="Administrative"
               />
               <FormControlLabel
                 name="tag"
-                value="todos"
-                control={<Radio className="text-black" />}
-                label="Todos"
+                value="creative"
+                control={
+                  <Radio
+                    sx={{ color: "black" }}
+                    checkedIcon={
+                      <RadioButtonCheckedIcon sx={{ color: "black" }} />
+                    }
+                  />
+                }
+                label="Creative"
               />
               <FormControlLabel
                 name="tag"
-                value="work"
-                control={<Radio className="text-black" />}
-                label="Work"
+                value="technical"
+                control={
+                  <Radio
+                    sx={{ color: "black" }}
+                    checkedIcon={
+                      <RadioButtonCheckedIcon sx={{ color: "black" }} />
+                    }
+                  />
+                }
+                label="Technical"
+              />
+              <FormControlLabel
+                name="tag"
+                value="research"
+                control={
+                  <Radio
+                    sx={{ color: "black" }}
+                    checkedIcon={
+                      <RadioButtonCheckedIcon sx={{ color: "black" }} />
+                    }
+                  />
+                }
+                label="Research"
+              />
+              <FormControlLabel
+                name="tag"
+                value="customer_service"
+                control={
+                  <Radio
+                    sx={{ color: "black" }}
+                    checkedIcon={
+                      <RadioButtonCheckedIcon sx={{ color: "black" }} />
+                    }
+                  />
+                }
+                label="Customer Service"
               />
               <MyStyledTextField
                 className="w-[30vw]"
@@ -104,7 +152,15 @@ export default function AddNote() {
           </FormControl>
 
           <Button
-            className="bg-black mx-4 my-0 mt-4"
+            sx={{
+              background: "black",
+              "&:hover": {
+                background: "white",
+                border: "2px solid black",
+                color: "black", // Change text color to white on hover
+              },
+            }}
+            className="mx-4 my-0 mt-4"
             type="submit"
             variant="contained"
             endIcon={<ArrowForwardIosIcon />}
