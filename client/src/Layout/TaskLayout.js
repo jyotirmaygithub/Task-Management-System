@@ -32,13 +32,13 @@ export default function TaskLayout({ task }) {
   });
 
   const colors = {
-    work: "#8D6E63",
-    money: "#43A047",
-    todos: "#1976D2",
-    reminders: "#D32F2F",
+    Administrative: "#8D6E63",
+    Creative: "#43A047",
+    Technical: "#1976D2",
+    Research: "#D32F2F",
+    Assistance: "#FFA000", 
     default: "#009688",
   };
-
   const getUsernameColor = () => {
     return task.tag ? colors[task.tag] : colors.default;
   };

@@ -47,8 +47,8 @@ export default function AlertDialogSlide({ taskId }) {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleDelete}>Delete</Button>
+          <Button sx={{color:"black"}} onClick={handleClose}>Cancel</Button>
+          <Button sx={{color:"black"}} onClick={handleDelete}>Delete</Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>

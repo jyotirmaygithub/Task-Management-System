@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { UserTasks } from "../context/TaskContext";
-import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
@@ -8,33 +7,40 @@ import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
 import MyStyledTextField from "../components/myStyledTextField";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
+import { TokenStatusContext } from "../context/tokenStatus";
 
 export default function AddNote() {
   const { handleAddNote } = UserTasks();
+  const { checkCookie } = TokenStatusContext();
+  const navigate = useNavigate();
   const [note, setnote] = useState({ title: "", description: "", tag: "" });
 
   async function handleClick(e) {
     e.preventDefault();
+    if (!checkCookie()) {
+      navigate("/login");
+    }
     // Check if any of the fields are empty
-    if (!note.title || !note.description || !note.tag) {
+    else if (!note.title || !note.description || !note.tag) {
       toast.error("All fields are required");
       return;
-    }
-    try {
-      const response = await handleAddNote(
-        note.title,
-        note.description,
-        note.tag
-      );
-      returnResponse(response);
-    } catch (error) {
-      // Handle API errors
-      console.error(error);
-      toast.error("An error occurred. Please try again later.");
+    } else {
+      try {
+        const response = await handleAddNote(
+          note.title,
+          note.description,
+          note.tag
+        );
+        returnResponse(response);
+      } catch (error) {
+        // Handle API errors
+        console.error(error);
+        toast.error("An error occurred. Please try again later.");
+      }
     }
   }
   function onchange(e) {
@@ -49,10 +55,8 @@ export default function AddNote() {
   }
   return (
     <>
-      <Container className="mt-[130px] space-y-3">
-        <h1 className="text-black text-[25px]" >
-          Create a new task
-        </h1>
+      <Container className="mt-5 space-y-3">
+        <h1 className="text-black text-[25px]">Create a new task</h1>
 
         <form onSubmit={handleClick} className="flex flex-col space-y-8">
           <MyStyledTextField
@@ -75,11 +79,11 @@ export default function AddNote() {
             required
           />
           <FormControl>
-          <h1 className="text-black text-[20px]">Task Tags</h1>
+            <h1 className="text-black text-[20px]">Task Tags</h1>
             <RadioGroup onChange={onchange}>
               <FormControlLabel
                 name="tag"
-                value="administrative"
+                value="Administrative"
                 control={
                   <Radio
                     sx={{ color: "black" }}
@@ -92,7 +96,7 @@ export default function AddNote() {
               />
               <FormControlLabel
                 name="tag"
-                value="creative"
+                value="Creative"
                 control={
                   <Radio
                     sx={{ color: "black" }}
@@ -105,7 +109,7 @@ export default function AddNote() {
               />
               <FormControlLabel
                 name="tag"
-                value="technical"
+                value="Technical"
                 control={
                   <Radio
                     sx={{ color: "black" }}
@@ -118,7 +122,7 @@ export default function AddNote() {
               />
               <FormControlLabel
                 name="tag"
-                value="research"
+                value="Research"
                 control={
                   <Radio
                     sx={{ color: "black" }}
@@ -131,7 +135,7 @@ export default function AddNote() {
               />
               <FormControlLabel
                 name="tag"
-                value="customer_service"
+                value="Assistance"
                 control={
                   <Radio
                     sx={{ color: "black" }}
@@ -140,7 +144,7 @@ export default function AddNote() {
                     }
                   />
                 }
-                label="Customer Service"
+                label="Assistance"
               />
               <MyStyledTextField
                 className="w-[30vw]"

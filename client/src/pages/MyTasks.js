@@ -33,19 +33,22 @@ export default function ExitingTasks() {
   function handleCreateTask() {
     navigate("/");
   }
+  console.log("user task " , userTasks.length)
   return (
     <>
-      <Box p={4}>
-        <Grid container spacing={3} justifyContent="center">
+      <Box  p={4} >
+        <Grid container spacing={3} justifyContent="center" className="mt-10">
           {loading ? (
             <CircularProgress sx={{ color: "black" }} />
-          ) : userTasks.length > 0 ? (
+          )
+           : userTasks.length > 0 ? (
             userTasks.map((data) => (
               <Grid item key={data._id}>
                 <Task task={data} />
               </Grid>
             ))
-          ) : (
+          ) 
+          : (
             <Grid item>
               <Typography variant="h6" gutterBottom>
                 No tasks found

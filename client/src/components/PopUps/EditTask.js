@@ -70,10 +70,10 @@ export default function FormDialog({ open, openState, entireTask }) {
         />
       </DialogContent>
       <DialogActions className="mb-3">
-        <Button onClick={handleClose} className="text-white bg-black">
+        <Button sx={{color:"black"}} onClick={handleClose}>
           Cancel
         </Button>
-        <Button onClick={handleClose} className="text-white bg-black">
+        <Button sx={{color:"black"}} onClick={handleClose} >
           Edit Note
         </Button>
       </DialogActions>

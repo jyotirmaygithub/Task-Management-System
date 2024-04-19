@@ -11,15 +11,13 @@ import { TokenStatusFunction } from "./context/tokenStatus";
 import EditProfile from "./pages/EditProfile";
 import { StatesFunction } from "./context/States";
 import { EditProfileContextFunc } from "./context/EditProfile";
-// import CircleProgress from "./pages/CircleProgress";
 import LandingPage from "./pages/LandingPage";
 import UserProfile from "./pages/UserProfile";
-// import Contact from "./pages/Contact"
-// import About from "./pages/About"
 import { TaskContextFun } from "./context/TaskContext"
 import AssignedUnassigned from "./pages/AssignedUnassigned"
 import TaskArchieve from "./pages/Task-Archieve"
 import MyTasks from "./pages/MyTasks"
+import HeaderLayout from "./Layout/HeaderLayout";
 
 function App() {
   return (
@@ -48,28 +46,18 @@ function App() {
                       <Route
                         exact
                         path="/assigned-unassigned-tasks/:name"
-                        element={<AssignedUnassigned />}
+                        element={<><HeaderLayout /><AssignedUnassigned /></>}
                       />
                       <Route
                         exact
                         path="/task-archieve"
-                        element={<TaskArchieve />}
+                        element={<><HeaderLayout /><TaskArchieve /></>}
                       />
                       <Route
                         exact
                         path="/my-tasks/:name"
-                        element={<MyTasks />}
+                        element={<><HeaderLayout /><MyTasks /></>}
                       />
-                      {/* <Route
-                        exact
-                        path="/Contact"
-                        element={<Contact />}
-                      /> */}
-                      {/* <Route
-                        exact
-                        path="/fetching-data"
-                        element={<CircleProgress />}
-                      /> */}
                       <Route exact path="*" element={<NotFoundPage />} />
                     </Routes>
                   </Router>
