@@ -150,13 +150,20 @@ export default function Login() {
               onChange={onchange}
             />
             <Button
-              className="bg-black"
+              sx={{
+                background: "black",
+                mt: 3,
+                mb: 2,
+                "&:hover": {
+                  background: "grey",
+                  color: "black", // Change text color to white on hover
+                },
+              }}
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
             >
-              <p>LOG IN</p>
+              <p>Sign IN</p>
             </Button>
             <div className="mb-4 flex w-full items-center gap-4">
               <div className="h-0 w-1/2 border-[1px]"></div>

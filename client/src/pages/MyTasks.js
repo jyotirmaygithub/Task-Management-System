@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Typography, Grid, Box, CircularProgress } from "@mui/material";
+import { Button, Typography, Grid, Box } from "@mui/material";
 import { AddBoxOutlined } from "@mui/icons-material";
 import Task from "../Layout/TaskLayout";
 import { jwtDecode } from "jwt-decode";
@@ -12,7 +12,6 @@ export default function ExitingTasks() {
   const { getAuthToken } = TokenStatusContext();
   const { tasks, fetchAllTasks } = UserTasks();
   const [userId, setUserId] = useState(null); // State to store user ID
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchAllTasks();
@@ -26,10 +25,6 @@ export default function ExitingTasks() {
   // Filter tasks based on whether they are created by the user
   const userTasks = tasks.filter((task) => task.user === userId);
 
-  useEffect(() => {
-    if (tasks.length > 0) setLoading(false);
-  }, [tasks]);
-
   function handleCreateTask() {
     navigate("/");
   }
@@ -37,10 +32,8 @@ export default function ExitingTasks() {
     <>
       <Box  p={4} >
         <Grid container spacing={3} justifyContent="center" className="mt-10">
-          {loading ? (
-            <CircularProgress sx={{ color: "black" }} />
-          )
-           : userTasks.length > 0 ? (
+          {
+            userTasks.length > 0 ? (
             userTasks.map((data) => (
               <Grid item key={data._id}>
                 <Task task={data} />

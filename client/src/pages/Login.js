@@ -54,7 +54,8 @@ export default function Login() {
       return;
     }
     // Check password strength (medium or strong)
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     if (!passwordRegex.test(combinedState.password)) {
       toast.error(
         "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one number"
@@ -137,11 +138,18 @@ export default function Login() {
               onChange={onchange}
             />
             <Button
-              className="bg-black"
+              sx={{
+                background: "black",
+                mt: 3,
+                mb: 2,
+                "&:hover": {
+                  background: "grey",
+                  color: "black", // Change text color to white on hover
+                },
+              }}
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
             >
               <p>LOG IN</p>
             </Button>

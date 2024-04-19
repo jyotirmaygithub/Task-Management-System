@@ -28,10 +28,9 @@ export default function FormDialog({ open, openState, entireTask }) {
   function onchange(e) {
     setCombinedState({ ...combinedState, [e.target.name]: e.target.value });
   }
-
- async function handleClose() {
+  async function handleEdit() {
     openState(false);
-   const reponse = await handleEditTask(
+    const reponse = await handleEditTask(
       combinedState.id,
       combinedState.title,
       combinedState.description,
@@ -39,7 +38,10 @@ export default function FormDialog({ open, openState, entireTask }) {
     );
     returnResponse(reponse);
   }
-  
+  async function handleClose() {
+    openState(false);
+  }
+
   return (
     <Dialog open={open} onClose={handleClose}>
       <DialogTitle id="form-dialog-title">Revamp Your Ideas</DialogTitle>
@@ -79,10 +81,10 @@ export default function FormDialog({ open, openState, entireTask }) {
         />
       </DialogContent>
       <DialogActions className="mb-3">
-        <Button sx={{color:"black"}} onClick={handleClose}>
+        <Button sx={{ color: "black" }} onClick={handleClose}>
           Cancel
         </Button>
-        <Button sx={{color:"black"}} onClick={handleClose} >
+        <Button sx={{ color: "black" }} onClick={handleEdit}>
           Edit Task
         </Button>
       </DialogActions>

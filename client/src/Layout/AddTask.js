@@ -13,27 +13,28 @@ import { UserTasks } from "../context/TaskContext";
 import { TokenStatusContext } from "../context/tokenStatus";
 import { toast } from "react-toastify";
 
-export default function AddNote() {
+export default function Addtask() {
   const navigate = useNavigate();
-  const { handleAddNote } = UserTasks();
+  const { handleAddTask } = UserTasks();
   const { checkCookie } = TokenStatusContext();
-  const [note, setnote] = useState({ title: "", description: "", tag: "" });
+  const [task, settask] = useState({ title: "", description: "", tag: "" });
 
   async function handleClick(e) {
     e.preventDefault();
+    console.log("writene task",task)
     if (!checkCookie()) {
       navigate("/login");
     }
     // Check if any of the fields are empty
-    else if (!note.title || !note.description || !note.tag) {
+    else if (!task.title || !task.description || !task.tag) {
       toast.error("All fields are required");
       return;
     } else {
       try {
-        const response = await handleAddNote(
-          note.title,
-          note.description,
-          note.tag
+        const response = await handleAddTask(
+          task.title,
+          task.description,
+          task.tag
         );
         returnResponse(response);
       } catch (error) {
@@ -44,7 +45,7 @@ export default function AddNote() {
     }
   }
   function onchange(e) {
-    setnote({ ...note, [e.target.name]: e.target.value });
+    settask({ ...task, [e.target.name]: e.target.value });
   }
   function returnResponse(response) {
     if (response.success) {

@@ -79,7 +79,7 @@ export function TaskContextFun(props) {
   }
 
   // Route : To add a new note
-  async function handleAddNote(title, description, tag) {
+  async function handleAddTask(title, description, tag) {
     try {
       const response = await fetch(`${dev_URL}/api/task/addtask`, {
         method: "POST",
@@ -133,7 +133,7 @@ export function TaskContextFun(props) {
         fetchAllTasks,
         handleDeleteTask,
         handleEditTask,
-        handleAddNote,
+        handleAddTask,
         handleAssignTask,
       }}
     >
