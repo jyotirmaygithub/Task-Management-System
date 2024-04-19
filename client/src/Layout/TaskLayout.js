@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { UserTasks } from "../context/TaskContext";
+// import { UserTasks } from "../context/TaskContext";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
@@ -59,22 +59,23 @@ export default function TaskLayout({ task }) {
             }
             action={
               <div>
-                {location.pathname !== "/all-created-tasks" &&
-                  !task.assignedTo && (
+                {location.pathname !== "/task-archieve" &&
+                  !task.assignedTo &&
+                  !location.pathname.includes("/my-tasks/") && (
                     <Assign taskId={task._id}>
                       <CheckIcon />
                     </Assign>
                   )}
 
-                {location.pathname !== "/all-created-tasks" &&
-                  location.pathname !== "/Tasks" && (
+                {location.pathname !== "/task-archieve" &&
+                  !location.pathname.includes("/assigned-unassigned-tasks") && (
                     <IconButton>
                       <Warning taskId={task._id} />
                     </IconButton>
                   )}
 
-                {location.pathname !== "/all-created-tasks" &&
-                  location.pathname !== "/Tasks" && (
+                {location.pathname !== "/task-archieve" &&
+                  !location.pathname.includes("/assigned-unassigned-tasks") && (
                     <IconButton onClick={handleOpen}>
                       <ModeEditOutlineOutlinedIcon />
                     </IconButton>

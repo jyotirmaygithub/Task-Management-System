@@ -14,10 +14,11 @@ import {
   ContactSupport,
   Info,
   Logout,
+  AssignmentIndOutlined,
   Person2Outlined,
-  HotelOutlined,
-  LivingOutlined,
   MenuOutlined,
+  AssignmentTurnedInOutlined,
+  WorkHistoryOutlined,
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { TokenStatusContext } from "../../context/tokenStatus";
@@ -29,14 +30,13 @@ export default function AnchorTemporaryDrawer() {
   const [state, setState] = React.useState({});
 
   const toggleDrawer = (anchor, open) => async (event) => {
-    if(!checkCookie()){
-      navigate('/login')
-    }
-    else{
+    if (!checkCookie()) {
+      navigate("/login");
+    } else {
       setState({ ...state, [anchor]: open });
     }
   };
-  
+
   function handleClick(value) {
     if (value === "Logout") {
       deleteAuthTokenCookie();
@@ -45,13 +45,17 @@ export default function AnchorTemporaryDrawer() {
       navigate(`/account/${userDocument.name}`);
     } else if (value === "editProfile") {
       navigate(`/account/edit-profile`);
-    } else if (value === "Task-History") {
-      navigate(`/all-created-tasks`);
+    } else if (value === "Assigned Tasks") {
+      navigate(`/assigned-unassigned-tasks/${userDocument.name}`);
+    } else if (value === "Task Archive") {
+      navigate(`/task-archieve`);
+    } else if (value === "My Created Tasks") {
+      navigate(`/my-tasks/${userDocument.name}`);
     } else {
       navigate(`/${value}`);
     }
   }
-  const icons = [<Person2Outlined />, <HotelOutlined />, <LivingOutlined />];
+  const icons = [<Person2Outlined />, <AssignmentTurnedInOutlined />, <AssignmentIndOutlined />, <WorkHistoryOutlined />];
   const iconCount = icons.length;
   const icons2 = [<Info />, <ContactSupport />, <Logout />];
   const iconCount2 = icons.length;
@@ -74,7 +78,12 @@ export default function AnchorTemporaryDrawer() {
         </Button>
       </div>
       <List>
-        {["View Profile", "Tasks", "Task-History"].map((text, index) => (
+        {[
+          "View Profile",
+          "My Created Tasks",
+          "Assigned Tasks",
+          "Task Archive",
+        ].map((text, index) => (
           <ListItem key={text} disablePadding onClick={() => handleClick(text)}>
             <ListItemButton>
               <ListItemIcon>{icons[index % iconCount]}</ListItemIcon>
@@ -83,6 +92,7 @@ export default function AnchorTemporaryDrawer() {
           </ListItem>
         ))}
       </List>
+
       <Divider />
       <List>
         {["About", "Contact", "Logout"].map((text, index) => (
@@ -102,7 +112,7 @@ export default function AnchorTemporaryDrawer() {
       <React.Fragment key="avatar">
         <Button className="space-x-2" onClick={toggleDrawer("avatar", true)}>
           {/* Render your Avatar component here */}
-          <MenuOutlined sx={{color:"black"}}/>
+          <MenuOutlined sx={{ color: "black" }} />
           <Avatar src={userDocument.picture} alt="User Avatar" />
         </Button>
         <Drawer

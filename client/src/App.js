@@ -17,8 +17,9 @@ import UserProfile from "./pages/UserProfile";
 // import Contact from "./pages/Contact"
 // import About from "./pages/About"
 import { TaskContextFun } from "./context/TaskContext"
-import Tasks from "./pages/UserTasks"
-import TasksHistory from "./pages/Task-History"
+import AssignedUnassigned from "./pages/AssignedUnassigned"
+import TaskArchieve from "./pages/Task-Archieve"
+import MyTasks from "./pages/MyTasks"
 
 function App() {
   return (
@@ -46,19 +47,19 @@ function App() {
                       />
                       <Route
                         exact
-                        path="/Tasks"
-                        element={<Tasks />}
+                        path="/assigned-unassigned-tasks/:name"
+                        element={<AssignedUnassigned />}
                       />
                       <Route
                         exact
-                        path="/all-created-tasks"
-                        element={<TasksHistory />}
+                        path="/task-archieve"
+                        element={<TaskArchieve />}
                       />
-                      {/* <Route
+                      <Route
                         exact
-                        path="/About"
-                        element={<About />}
-                      /> */}
+                        path="/my-tasks/:name"
+                        element={<MyTasks />}
+                      />
                       {/* <Route
                         exact
                         path="/Contact"
