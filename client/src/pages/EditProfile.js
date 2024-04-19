@@ -5,14 +5,13 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
-import { Logout } from "@mui/icons-material";
+import { Logout, Person2Outlined } from "@mui/icons-material";
 import EditIcon from "@mui/icons-material/Edit";
-import { TokenStatusContext } from "../context/tokenStatus";
-import { useNavigate } from "react-router-dom";
-import { StateContext } from "../context/States";
-import ProfilePopUp from "../components/PopUps/ProfilePop";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
-// import Progress from  "../components/Progress";
+import ProfilePopUp from "../components/PopUps/ProfilePop"; // Assuming this is a custom component for profile editing
+import { useNavigate } from "react-router-dom";
+import { TokenStatusContext } from "../context/tokenStatus";
+import { StateContext } from "../context/States";
 
 export default function ActionAreaCard() {
   const { deleteAuthTokenCookie } = TokenStatusContext();
@@ -26,7 +25,8 @@ export default function ActionAreaCard() {
     deleteAuthTokenCookie();
     navigate("/");
   }
-  async function handleSubmit() {
+
+  function handleSubmit() {
     setPopUp(true);
   }
 
@@ -37,32 +37,45 @@ export default function ActionAreaCard() {
           <Avatar
             alt="profile picture"
             src={picture}
-            sx={{ width: 250, height: 250 }}
+            sx={{ width: 250, height: 250, margin: "auto" }} // Center the avatar
           />
           <CardContent>
             <Typography
-              startIcon={<EmailOutlinedIcon />}
               gutterBottom
               variant="h6"
               component="div"
+              sx={{ display: "flex", alignItems: "center" }}
             >
+              <EmailOutlinedIcon sx={{ marginRight: 1 }} />
               {email ? email : ""}
             </Typography>
             <Typography
-              startIcon={<EmailOutlinedIcon />}
               gutterBottom
               variant="h6"
               component="div"
+              sx={{ display: "flex", alignItems: "center" }}
             >
+              <Person2Outlined sx={{ marginRight: 1 }} />
               {name ? name : ""}
             </Typography>
           </CardContent>
         </CardActionArea>
-        <div className="flex justify-between gap-8">
+        <div className="flex justify-between gap-8 p-4"> {/* Added padding for button container */}
           <Button
             onClick={handleSubmit}
             variant="outlined"
             startIcon={<EditIcon />}
+            sx={{
+              background: "white",
+              color : "black",
+              borderColor: "black",
+              "&:hover": {
+                background: "black",
+                borderColor: "white",
+                border: "2px solid black",
+                color: "white", // Change text color to white on hover
+              },
+            }}
           >
             Edit Profile
           </Button>
@@ -71,6 +84,14 @@ export default function ActionAreaCard() {
             onClick={handleLogout}
             variant="contained"
             startIcon={<Logout />}
+            sx={{
+              background: "black",
+              "&:hover": {
+                background: "white",
+                border: "2px solid black",
+                color: "black", // Change text color to white on hover
+              },
+            }}
           >
             Logout
           </Button>

@@ -55,9 +55,14 @@ export default function AnchorTemporaryDrawer() {
       navigate(`/${value}`);
     }
   }
-  const icons = [<Person2Outlined />, <AssignmentTurnedInOutlined />, <AssignmentIndOutlined />, <WorkHistoryOutlined />];
+  const icons = [
+    <Person2Outlined />,
+    <AssignmentTurnedInOutlined />,
+    <AssignmentIndOutlined />,
+    <WorkHistoryOutlined />,
+  ];
   const iconCount = icons.length;
-  const icons2 = [<Info />, <ContactSupport />, <Logout />];
+  const icons2 = [<Logout />];
   const iconCount2 = icons.length;
 
   const list = (anchor) => (
@@ -73,7 +78,18 @@ export default function AnchorTemporaryDrawer() {
           sx={{ width: 150, height: 150 }}
           alt="User Avatar"
         />
-        <Button variant="contained" onClick={(e) => handleClick("editProfile")}>
+        <Button
+          sx={{
+            background: "black",
+            "&:hover": {
+              background: "white",
+              border: "2px solid black",
+              color: "black", // Change text color to white on hover
+            },
+          }}
+          variant="contained"
+          onClick={(e) => handleClick("editProfile")}
+        >
           Edit Profile
         </Button>
       </div>
@@ -95,7 +111,7 @@ export default function AnchorTemporaryDrawer() {
 
       <Divider />
       <List>
-        {["About", "Contact", "Logout"].map((text, index) => (
+        {[ "Logout"].map((text, index) => (
           <ListItem key={text} disablePadding onClick={() => handleClick(text)}>
             <ListItemButton>
               <ListItemIcon>{icons2[index % iconCount2]}</ListItemIcon>
