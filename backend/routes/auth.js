@@ -1,9 +1,9 @@
-const user = require("../models/User");
 const express = require("express");
 const router = express.Router();
+const fetchUserId = require("../middleware/fetchUserId");
+const user = require("../models/User");
 const bcrypt = require("bcrypt");
 var jwt = require("jsonwebtoken");
-const fetchUserId = require("../middleware/fetchUserId")
 require("dotenv").config();
 
 const JWT_secret = process.env.JWT_SECRET;
@@ -34,50 +34,48 @@ function generateRandomPassword(length) {
 }
 
 //ROUTE 1 : creating an new user account.
-router.post(
-  "/newuser",
-  async (req, res) => {
-    const { name, email, password } = req.body;
+router.post("/newuser", async (req, res) => {
+  const { name, email, password } = req.body;
 
-    // Basic validation using destructuring
-    if (!name || !email || !password) {
-      return res.status(400).json({ message: "Name, email, and password are required" });
-    }
-
-    // Check if user already exists
-    try {
-      let newUser = await user.findOne({ email });
-      if (newUser) {
-        return res.status(400).json({ message: "User already exists" });
-      }
-    } catch (error) {
-      console.error(error.message);
-      return res.status(500).send("Internal server error");
-    }
-
-    // Hash the password
-    try {
-      const salt = await bcrypt.genSalt(10);
-      const hashedPassword = await bcrypt.hash(password, salt);
-      
-      // Create new user
-      const newUser = await user.create({
-        name,
-        email,
-        password: hashedPassword,
-      });
-
-      // Generate JWT token
-      const data = idObject(newUser);
-      const auth_token = jwt.sign(data, JWT_secret);
-      res.json({ auth_token });
-    } catch (error) {
-      console.error(error.message);
-      res.status(500).send("Internal server Error Occurred");
-    }
+  // Basic validation using destructuring
+  if (!name || !email || !password) {
+    return res
+      .status(400)
+      .json({ message: "Name, email, and password are required" });
   }
-);
 
+  // Check if user already exists
+  try {
+    let newUser = await user.findOne({ email });
+    if (newUser) {
+      return res.status(400).json({ message: "User already exists" });
+    }
+  } catch (error) {
+    console.error(error.message);
+    return res.status(500).send("Internal server error");
+  }
+
+  // Hash the password
+  try {
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    // Create new user
+    const newUser = await user.create({
+      name,
+      email,
+      password: hashedPassword,
+    });
+
+    // Generate JWT token
+    const data = idObject(newUser);
+    const auth_token = jwt.sign(data, JWT_secret);
+    res.json({ auth_token });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Internal server Error Occurred");
+  }
+});
 
 // ROUTE 2 : Authenticate a user using.
 router.post("/login", async (req, res) => {
@@ -96,7 +94,10 @@ router.post("/login", async (req, res) => {
     }
 
     // Check if the password is correct
-    const isPasswordValid = await bcrypt.compare(password, existingUser.password);
+    const isPasswordValid = await bcrypt.compare(
+      password,
+      existingUser.password
+    );
     if (!isPasswordValid) {
       return res.status(401).json({ msg: "Invalid Credentials" });
     }
@@ -111,38 +112,38 @@ router.post("/login", async (req, res) => {
   }
 });
 
-// Route 3 : google authentication : POST /api/auth/google-auth.
-
+// Route 3 : google authentication 
 router.post("/google-auth", async (req, res) => {
   const { name, email } = req.body;
+
   try {
-    const userData = await user.findOne({ email });
+    let userData = await user.findOne({ email }); // Use let instead of const to allow reassignment
     if (!userData) {
       const salt = await bcrypt.genSalt(10);
-      const password = generateRandomPassword(20);
+      const password = generateRandomPassword(20); // Generate a random password
       const hashedPassword = await bcrypt.hash(password, salt);
       userData = await user.create({
         name: name,
         email: email,
-        password: hashedPassword,
+        password: hashedPassword, // Store hashed password in the database
       });
     }
-    const data = idObject(userData);
-    const auth_token = jwt.sign(data, JWT_secret);
-    res.json({ auth_token });
+    const data = idObject(userData); // Define how you want to create the JWT payload
+    const auth_token = jwt.sign(data, JWT_secret); // Generate JWT token
+    res.json({ auth_token }); // Send JWT token as response
   } catch (error) {
-    // throw errors.
     console.error(error.message);
-    res.status(500).send("Internal server Error Occured");
+    res.status(500).send("Internal server Error Occurred"); // Send error response
   }
 });
 
-// Route 4 : to get entered user data :GET /api/auth/user-data.
-
+// Route 4 : to get entered user data.
 router.get("/user-data", fetchUserId, async (req, res) => {
   try {
-    let userDocument = await user.findById({ _id : req.userId}).select("-password")
-    res.json({"user_data" : userDocument})
+    let userDocument = await user
+      .findById({ _id: req.userId })
+      .select("-password");
+    res.json({ user_data: userDocument });
   } catch (error) {
     // throw errors.
     console.error(error.message);

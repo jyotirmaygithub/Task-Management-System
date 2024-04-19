@@ -6,7 +6,7 @@ import SwitchBtn from "../components/Header/SwitchBtn";
 export default function HeaderLayout() {
   return (
     <header
-      className={`flex w-screen justify-center bg-white py-4 `}
+      className={`flex  justify-center bg-white py-4 `}
     >
       <div
         className={`flex w-screen max-w-screen-xl justify-between items-center`}

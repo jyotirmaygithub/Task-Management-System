@@ -8,6 +8,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import { DeleteOutlineOutlined } from "@mui/icons-material"; 
 import { UserTasks } from "../../context/TaskContext";
+import { toast } from "react-toastify";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -17,6 +18,13 @@ export default function AlertDialogSlide({ taskId }) {
   const { handleDeleteTask } = UserTasks();
   const [open, setOpen] = React.useState(false);
 
+  function returnResponse(response) {
+    if (response.success) {
+      toast.success(response.message);
+    } else {
+      toast.error(response.message);
+    }
+  }
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -25,8 +33,9 @@ export default function AlertDialogSlide({ taskId }) {
     setOpen(false);
   };
 
-  const handleDelete = () => {
-    handleDeleteTask(taskId);
+  async function handleDelete() {
+   const response = await handleDeleteTask(taskId);
+   returnResponse(response)
     setOpen(false);
   };
 

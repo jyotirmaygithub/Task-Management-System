@@ -9,10 +9,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import { Avatar } from "@mui/material";
-import { StateContext } from "../../context/States";
 import {
-  ContactSupport,
-  Info,
   Logout,
   AssignmentIndOutlined,
   Person2Outlined,
@@ -21,6 +18,7 @@ import {
   WorkHistoryOutlined,
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
+import { StateContext } from "../../context/States";
 import { TokenStatusContext } from "../../context/tokenStatus";
 
 export default function AnchorTemporaryDrawer() {
@@ -83,7 +81,6 @@ export default function AnchorTemporaryDrawer() {
             background: "black",
             "&:hover": {
               background: "white",
-              border: "2px solid black",
               color: "black", // Change text color to white on hover
             },
           }}

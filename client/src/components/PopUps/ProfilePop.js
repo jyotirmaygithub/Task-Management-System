@@ -8,18 +8,18 @@ import DialogTitle from "@mui/material/DialogTitle";
 import MyStyledTextField from "../myStyledTextField";
 import Avatar from "@mui/material/Avatar";
 import { StateContext } from "../../context/States";
-import { toast } from "react-toastify";
 import { EditProfileContext } from "../../context/EditProfile";
 import { FrontAuthContext } from "../../context/front-auth";
+import { toast } from "react-toastify";
 
 export default function FormDialog({ open, openState }) {
   const { userDocument } = StateContext();
   const { handleExistingUserData } = FrontAuthContext();
-  const { name, picture } = userDocument;
+  const { saveImage, handleEditProfile } = EditProfileContext();
   const [selectedFile, setSelectedFile] = useState(null);
   const [userName, setUserName] = useState(null);
   const [userImage, setuserImage] = useState(null);
-  const { saveImage, handleEditProfile } = EditProfileContext();
+  const { name, picture } = userDocument;
   // To render the image url into the state, when data of the user get fetch.
   useEffect(() => {
     if (picture) {
@@ -37,15 +37,14 @@ export default function FormDialog({ open, openState }) {
     openState(false);
   }
   async function handleEditProfileBtn() {
+    toast.info("'Updating profile can take time , please wait...")
     openState(false);
-    let imageURL = await saveImage(userImage);
-    console.log("response = ", imageURL);
-    let waiting = returnResponse(await handleEditProfile(userName, imageURL));
-    console.log("reply of the waiting = ", waiting);
+    const imageURL = await saveImage(userImage);
+    const response  = await handleEditProfile(userName, imageURL);
+    returnResponse(response)
     handleExistingUserData();
   }
   function returnResponse(response) {
-    console.log("what is response = ", response);
     if (response.success) {
       toast.success(response.message);
     } else {

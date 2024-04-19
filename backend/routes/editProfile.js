@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const User = require("../models/User");
 const fetchUserId = require("../middleware/fetchUserId");
+const User = require("../models/User");
 
 // Route: Update or edit user profile.
 router.post("/edit-profile", fetchUserId, async (req, res) => {

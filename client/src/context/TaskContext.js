@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, createContext } from "react";
+import React, { useState, useContext, createContext } from "react";
 import { TokenStatusContext } from "./tokenStatus";
 
 const TaskContext = createContext();
@@ -8,7 +8,7 @@ export function TaskContextFun(props) {
   const { getAuthToken } = TokenStatusContext();
   const [tasks, setTasks] = useState([]);
 
-  // Function to fetch all tasks
+  // Route : To fetch all tasks
   async function fetchAllTasks() {
     try {
       const response = await fetch(`${dev_URL}/api/task/tasks`, {
@@ -31,7 +31,7 @@ export function TaskContextFun(props) {
     }
   }
 
-  // Function to delete a task
+  // Route : To delete a task
   async function handleDeleteTask(id) {
     try {
       const response = await fetch(`${dev_URL}/api/task/deleteTask/${id}`, {
@@ -54,7 +54,7 @@ export function TaskContextFun(props) {
     }
   }
 
-  // Function to edit an existing task
+  // Route : To edit an existing task
   async function handleEditTask(id, title, description, tag) {
     try {
       const response = await fetch(`${dev_URL}/api/task/updateTask/${id}`, {
@@ -78,7 +78,7 @@ export function TaskContextFun(props) {
     }
   }
 
-  // Function to add a new note
+  // Route : To add a new note
   async function handleAddNote(title, description, tag) {
     try {
       const response = await fetch(`${dev_URL}/api/task/addtask`, {
@@ -102,9 +102,8 @@ export function TaskContextFun(props) {
     }
   }
 
-   // Function to assign a task
-   async function handleAssignTask(id) {
-    console.log("Assigning task with ID:", id);
+  // Route : To assign a task
+  async function handleAssignTask(id) {
     try {
       const response = await fetch(`${dev_URL}/api/task/assignTask/${id}`, {
         method: "PUT",
@@ -113,24 +112,19 @@ export function TaskContextFun(props) {
           "auth-token": getAuthToken(), // Assuming getAuthToken() retrieves the authentication token
         },
       });
-  
+
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-  
-      // If you want to parse response body, uncomment the next line
-      // const data = await response.json();
-  
       // Refresh tasks after assignment
       fetchAllTasks();
-  
+
       return { success: true, message: "Task has been assigned!" };
     } catch (error) {
       console.error("Error assigning task:", error.message);
       return { success: false, message: error.message };
     }
   }
-  
 
   return (
     <TaskContext.Provider

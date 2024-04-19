@@ -1,27 +1,26 @@
 import { useEffect, useState } from "react";
-import { jwtDecode } from "jwt-decode";
-import { UserTasks } from "../context/TaskContext";
-import Task from "../Layout/TaskLayout";
 import { Grid, Typography } from "@mui/material";
 import { WarningRounded } from "@mui/icons-material";
+import { jwtDecode } from "jwt-decode";
+import Task from "../Layout/TaskLayout";
+import { UserTasks } from "../context/TaskContext";
 import { TokenStatusContext } from "../context/tokenStatus";
 
 export default function ExitingTasks() {
   const { getAuthToken } = TokenStatusContext();
   const { tasks, fetchAllTasks } = UserTasks();
   const [userId, setUserId] = useState(null); // State to store user ID
-  console.log("things are working ");
+
   useEffect(() => {
     // Decode the JWT token to extract user ID
     fetchAllTasks();
     const authToken = getAuthToken();
     if (authToken) {
       const decodedToken = jwtDecode(authToken);
-      console.log("authtoken id = ", decodedToken.newUser.id);
       setUserId(decodedToken.newUser.id);
     }
   }, []);
-  console.log("numebr of taks ", tasks);
+  
   // Filter tasks based on whether they are assigned to the user
   const assignedTasks = tasks.filter((task) => task.assignedUser === userId);
   const unassignedTasks = tasks.filter((task) => !task.assignedTo);

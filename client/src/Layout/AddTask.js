@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { UserTasks } from "../context/TaskContext";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
@@ -7,16 +6,17 @@ import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
-import MyStyledTextField from "../components/myStyledTextField";
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
+import MyStyledTextField from "../components/myStyledTextField";
+import { useNavigate } from "react-router-dom";
+import { UserTasks } from "../context/TaskContext";
 import { TokenStatusContext } from "../context/tokenStatus";
+import { toast } from "react-toastify";
 
 export default function AddNote() {
+  const navigate = useNavigate();
   const { handleAddNote } = UserTasks();
   const { checkCookie } = TokenStatusContext();
-  const navigate = useNavigate();
   const [note, setnote] = useState({ title: "", description: "", tag: "" });
 
   async function handleClick(e) {

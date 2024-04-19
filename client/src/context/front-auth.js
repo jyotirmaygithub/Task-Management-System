@@ -43,7 +43,6 @@ export function AuthFunction(props) {
       }
       const userAuth_Token = await response.json();
       if (userAuth_Token.auth_token) {
-        console.log("this is the authtoken = " + userAuth_Token);
         storeAuthToken(userAuth_Token);
       }
       handleExistingUserData()
@@ -72,7 +71,6 @@ export function AuthFunction(props) {
       }
       const userAuth_Token = await response.json();
       if (userAuth_Token.auth_token) {
-        console.log("this is the authtoken = " + userAuth_Token);
         storeAuthToken(userAuth_Token);
       }
       handleExistingUserData()
@@ -86,7 +84,6 @@ export function AuthFunction(props) {
   // Route 3 : handling google login.
   async function handleGoogleLogin(credential) {
     const dataObject = jwtDecode(credential);
-    console.log("dataobject values = ", dataObject);
     return handleGoogleUser(dataObject.name, dataObject.email);
   }
 
@@ -108,7 +105,6 @@ export function AuthFunction(props) {
       }
       const userAuth_Token = await response.json();
       if (userAuth_Token.auth_token) {
-        console.log("this is the authtoken = " + userAuth_Token);
         storeAuthToken(userAuth_Token);
       }
       handleExistingUserData()
@@ -150,7 +146,6 @@ export function AuthFunction(props) {
       value={{
         handleCreateUser,
         handleExistingUser,
-        // handleEditProfile,
         handleGoogleLogin,
         handleExistingUserData,
       }}

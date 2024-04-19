@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
+const fetchUserId = require("../middleware/fetchUserId");
 const Task = require("../models/Task");
 const User = require("../models/User");
-const fetchUserId = require("../middleware/fetchUserId");
 
 // Route: Fetch existing tasks.
 router.get("/tasks", fetchUserId, async (req, res) => {
@@ -91,8 +91,8 @@ router.delete("/deleteTask/:id", fetchUserId, async (req, res) => {
   }
 });
 
+// Route : To assign task to the users.
 router.put("/assignTask/:id", fetchUserId, async (req, res) => {
-  console.log("let see if it is working ")
   try {
     const userDocument = await User.findById(req.userId).select("-password");
 

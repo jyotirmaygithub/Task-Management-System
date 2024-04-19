@@ -12,18 +12,21 @@ import ProfilePopUp from "../components/PopUps/ProfilePop"; // Assuming this is 
 import { useNavigate } from "react-router-dom";
 import { TokenStatusContext } from "../context/tokenStatus";
 import { StateContext } from "../context/States";
+import { FrontAuthContext } from "../context/front-auth";
 
 export default function ActionAreaCard() {
-  const { deleteAuthTokenCookie } = TokenStatusContext();
   const navigate = useNavigate();
+  const { deleteAuthTokenCookie } = TokenStatusContext();
   const { userDocument } = StateContext();
+  const {handleExistingUserData} = FrontAuthContext()
   const { name, email, picture } = userDocument;
 
   const [popUp, setPopUp] = useState(false);
 
   function handleLogout() {
     deleteAuthTokenCookie();
-    navigate("/");
+    handleExistingUserData()
+    navigate("/login");
   }
 
   function handleSubmit() {
@@ -31,13 +34,13 @@ export default function ActionAreaCard() {
   }
 
   return (
-    <div className="flex justify-center items-center">
+    <div className="flex justify-center items-center mt-5">
       <Card className="p-2">
         <CardActionArea className="flex-col justify-center">
           <Avatar
             alt="profile picture"
             src={picture}
-            sx={{ width: 250, height: 250, margin: "auto" }} // Center the avatar
+            sx={{ width: 250, height: 250, margin: "auto" }} 
           />
           <CardContent>
             <Typography
@@ -60,7 +63,7 @@ export default function ActionAreaCard() {
             </Typography>
           </CardContent>
         </CardActionArea>
-        <div className="flex justify-between gap-8 p-4"> {/* Added padding for button container */}
+        <div className="flex justify-between gap-8 p-4"> 
           <Button
             onClick={handleSubmit}
             variant="outlined"
@@ -72,8 +75,7 @@ export default function ActionAreaCard() {
               "&:hover": {
                 background: "black",
                 borderColor: "white",
-                border: "2px solid black",
-                color: "white", // Change text color to white on hover
+                color: "white", 
               },
             }}
           >
@@ -88,8 +90,7 @@ export default function ActionAreaCard() {
               background: "black",
               "&:hover": {
                 background: "white",
-                border: "2px solid black",
-                color: "black", // Change text color to white on hover
+                color: "black", 
               },
             }}
           >

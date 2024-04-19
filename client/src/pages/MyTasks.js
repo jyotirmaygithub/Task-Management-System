@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { jwtDecode } from "jwt-decode";
-import { UserTasks } from "../context/TaskContext";
-import Task from "../Layout/TaskLayout";
-import { TokenStatusContext } from "../context/tokenStatus";
 import { Button, Typography, Grid, Box, CircularProgress } from "@mui/material";
-import { useNavigate } from "react-router-dom";
 import { AddBoxOutlined } from "@mui/icons-material";
+import Task from "../Layout/TaskLayout";
+import { jwtDecode } from "jwt-decode";
+import { useNavigate } from "react-router-dom";
+import { UserTasks } from "../context/TaskContext";
+import { TokenStatusContext } from "../context/tokenStatus";
 
 export default function ExitingTasks() {
   const navigate = useNavigate();
@@ -33,7 +33,6 @@ export default function ExitingTasks() {
   function handleCreateTask() {
     navigate("/");
   }
-  console.log("user task " , userTasks.length)
   return (
     <>
       <Box  p={4} >

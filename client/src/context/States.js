@@ -3,10 +3,7 @@ import React, { useContext, createContext, useState } from "react";
 const AppStates = createContext();
 
 export function StatesFunction(props) {
-  // To have current date.
-  const currentDate = new Date();
-  const dateString = currentDate.toLocaleDateString();
-  // state to store user document from the database.
+  // Stores current user data.
   const [userDocument, setUserDocument] = useState({});
 
   return (

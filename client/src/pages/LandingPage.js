@@ -1,6 +1,5 @@
 import React from 'react'
 import Header from "../Layout/HeaderLayout"
-// import  Hotels from "../pages/Hotels";
 import AddTask from "../Layout/AddTask"
 
 export default function FrontPage() {
@@ -8,7 +7,6 @@ export default function FrontPage() {
     <div>
       <Header/>
       <AddTask/>
-      {/* <Footer/> */}
     </div>
   )
 }

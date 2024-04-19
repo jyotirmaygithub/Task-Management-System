@@ -7,36 +7,45 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { UserTasks } from "../../context/TaskContext";
 import MyStyledTextField from "../myStyledTextField";
+import { toast } from "react-toastify";
 
 export default function FormDialog({ open, openState, entireTask }) {
   const { handleEditTask } = UserTasks();
-  let { _id, title, description, tag } = entireTask;
+  const { _id, title, description, tag } = entireTask;
   const [combinedState, setCombinedState] = useState({
     id: _id,
     title: title,
     description: description,
     tag: tag,
   });
-
+  function returnResponse(response) {
+    if (response.success) {
+      toast.success(response.message);
+    } else {
+      toast.error(response.message);
+    }
+  }
   function onchange(e) {
     setCombinedState({ ...combinedState, [e.target.name]: e.target.value });
   }
 
-  function handleClose() {
+ async function handleClose() {
     openState(false);
-    handleEditTask(
+   const reponse = await handleEditTask(
       combinedState.id,
       combinedState.title,
       combinedState.description,
       combinedState.tag
     );
+    returnResponse(reponse);
   }
+  
   return (
     <Dialog open={open} onClose={handleClose}>
       <DialogTitle id="form-dialog-title">Revamp Your Ideas</DialogTitle>
       <DialogContent className="space-y-4">
         <DialogContentText>
-          Edit and elevate your existing notes effortlessly in the NoteVault app
+          Edit and elevate your existing Task effortlessly.
         </DialogContentText>
         <MyStyledTextField
           onChange={onchange}
@@ -74,7 +83,7 @@ export default function FormDialog({ open, openState, entireTask }) {
           Cancel
         </Button>
         <Button sx={{color:"black"}} onClick={handleClose} >
-          Edit Note
+          Edit Task
         </Button>
       </DialogActions>
     </Dialog>

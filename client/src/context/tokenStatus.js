@@ -22,12 +22,10 @@ export function TokenStatusFunction(props) {
 
   // Function : To get the auth-token from the cookie.
   function getAuthToken() {
-    console.log("is it working or not ");
     const cookies = document.cookie.split(";");
     for (let i = 0; i < cookies.length; i++) {
       const cookie = cookies[i].trim();
       if (cookie.startsWith("auth-token=")) {
-        console.log("Got AuthToken" + cookie.substring("auth-token=".length));
         return cookie.substring("auth-token=".length); // Return only the token value
       }
     }

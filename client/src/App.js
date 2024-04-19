@@ -3,17 +3,17 @@ import { Slide, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { AuthFunction } from "./context/front-auth";
+import { TokenStatusFunction } from "./context/tokenStatus";
+import { StatesFunction } from "./context/States";
+import { EditProfileContextFunc } from "./context/EditProfile";
+import { TaskContextFun } from "./context/TaskContext"
 import LoginPage from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import NotFoundPage from "./pages/NotFound";
-import { AuthFunction } from "./context/front-auth";
-import { TokenStatusFunction } from "./context/tokenStatus";
 import EditProfile from "./pages/EditProfile";
-import { StatesFunction } from "./context/States";
-import { EditProfileContextFunc } from "./context/EditProfile";
 import LandingPage from "./pages/LandingPage";
 import UserProfile from "./pages/UserProfile";
-import { TaskContextFun } from "./context/TaskContext"
 import AssignedUnassigned from "./pages/AssignedUnassigned"
 import TaskArchieve from "./pages/Task-Archieve"
 import MyTasks from "./pages/MyTasks"
@@ -36,12 +36,12 @@ function App() {
                       <Route
                         exact
                         path="/account/:name"
-                        element={<UserProfile />}
+                        element={<><HeaderLayout /><UserProfile /></>}
                       />
                       <Route
                         exact
                         path="/account/edit-profile"
-                        element={<EditProfile />}
+                        element={<><HeaderLayout /><EditProfile /></>}
                       />
                       <Route
                         exact

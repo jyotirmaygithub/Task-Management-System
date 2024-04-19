@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-// import { UserTasks } from "../context/TaskContext";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
@@ -16,7 +15,6 @@ import { useLocation } from "react-router-dom";
 
 export default function TaskLayout({ task }) {
   const location = useLocation();
-  // const { handleDeleteTask } = UserTasks();
   const [open, setOpen] = useState(false);
 
   function handleOpen() {

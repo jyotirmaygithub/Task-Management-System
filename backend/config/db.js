@@ -3,7 +3,7 @@ require('dotenv').config();
 
 function ConnectionToMongoose() {
     mongoose
-        .connect("mongodb://localhost:27017/tasks", {
+        .connect(process.env.REACT_APP_MONGO_URL, {
              useNewUrlParser: true,
             useUnifiedTopology: true,
         })

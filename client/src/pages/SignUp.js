@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -8,14 +7,21 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import MyStyledTextField from "../components/myStyledTextField";
+import { useNavigate } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
+import MyStyledTextField from "../components/myStyledTextField";
 import { FrontAuthContext } from "../context/front-auth";
 import { toast } from "react-toastify";
 
 export default function Login() {
   const navigate = useNavigate();
   const { handleCreateUser, handleGoogleLogin } = FrontAuthContext();
+  const defaultTheme = createTheme();
+  const [combinedState, setCombinedState] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
 
   function Copyright(props) {
     return (
@@ -32,12 +38,6 @@ export default function Login() {
     );
   }
 
-  const defaultTheme = createTheme();
-  const [combinedState, setCombinedState] = useState({
-    name: "",
-    email: "",
-    password: "",
-  });
 
   async function handleSubmit(event) {
     event.preventDefault();
