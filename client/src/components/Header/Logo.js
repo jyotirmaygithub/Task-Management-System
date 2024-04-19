@@ -8,17 +8,13 @@ export default function Logo() {
     navigate("/");
   }
   return (
-    // <div>
-      <div className="flex items-center gap-1 cursor-pointer" onClick={handleClick}>
-        <AssignmentOutlinedIcon
-          className="h-8 w-8 md:h-10 md:w-10"
-          sx={{ color: "blue" }}
-        />
+    <div
+      className="flex items-center gap-1 cursor-pointer"
+      onClick={handleClick}
+    >
+      <AssignmentOutlinedIcon className="h-8 w-8 md:h-10 md:w-10" />
 
-        <span className="hidden text-2xl font-bold text-blue-400 md:block">
-          Tasks
-        </span>
-      </div>
-    // </div>
+      <span className="text-2xl font-bold ">Tasks</span>
+    </div>
   );
 }
